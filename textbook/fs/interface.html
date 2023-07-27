@@ -1,35 +1,45 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>12. File System Abstraction &#8212; Introduction to Operating Systems</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -37,13 +47,13 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
@@ -51,63 +61,96 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script type="application/vnd.jupyter.widget-state+json">{"state": {"a521825f3242403f9cb76d8b0985ff98": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": "1px solid black", "border_left": "1px solid black", "border_right": "1px solid black", "border_top": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "020f3b86f53b4fb5af818356b28ec03e": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_a521825f3242403f9cb76d8b0985ff98", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "$ [[ -d mydir ]] && rm -rf mydir\r\n$     [[ -a /tmp/foo ]] && rm -rf /tmp/foo\r\n$     [[ -a errors ]] && rm errors \r\n$     [[ -a mydate ]] && rm mydate\r\n$     [[ -a mynewdir ]] && rm -rf mynewdir\r\n$     [[ -a anotherfile ]] && rm anotherfile\r\n$     [[ -a mybin ]] && rm -rf  mybin\r\n$     [[ -a myinfo ]] && rm myinfo\r\n$ "}], "tabbable": null, "tooltip": null}}, "e1a1df6504224ba182605176d498afba": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": "1px solid black", "border_left": "1px solid black", "border_right": "1px solid black", "border_top": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "8bf12ee2bd174ed8ae08da1001df3096": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_e1a1df6504224ba182605176d498afba", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "$ ls \ndiskhw.ipynb                  dl_failures.ipynb    intro.ipynb\r\ndisklayout.ipynb              dl_name.ipynb        kernelimp.ipynb\r\ndisklayout-saved-peter.ipynb  dl_track_free.ipynb  review.ipynb\r\ndl_blocksize.ipynb            dl_track_used.ipynb\r\ndl_ex_exx.ipynb               interface.ipynb\r\n$ "}], "tabbable": null, "tooltip": null}}, "46977e244f3642a1aacabba4fce2dece": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": "1px solid black", "border_left": "1px solid black", "border_right": "1px solid black", "border_top": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "c32ed84dd5a344e0a395c038fcd2ba2b": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_46977e244f3642a1aacabba4fce2dece", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "$ mount | grep ext4\r\n/dev/vda1 on /etc/resolv.conf type \u001b[01;31m\u001b[Kext4\u001b[m\u001b[K (rw,relatime,discard)\r\n/dev/vda1 on /etc/hostname type \u001b[01;31m\u001b[Kext4\u001b[m\u001b[K (rw,relatime,discard)\r\n/dev/vda1 on /etc/hosts type \u001b[01;31m\u001b[Kext4\u001b[m\u001b[K (rw,relatime,discard)\r\n$ "}], "tabbable": null, "tooltip": null}}, "67de3256a6d14e7fb97d2038063675af": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": "1px solid black", "border_left": "1px solid black", "border_right": "1px solid black", "border_top": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "dcfa2e0fd0dd4091b60310f79d789c55": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_67de3256a6d14e7fb97d2038063675af", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "$ mkdir /tmp/foo; ls -al /tmp/foo; mkdir /tmp/foo/bar ; ls -al /tmp/foo\r\ntotal 8\r\ndrwxr-xr-x 2 jovyan root 4096 Jul 27 23:29 \u001b[0m\u001b[01;34m.\u001b[0m\r\ndrwxrwxrwt 1 root   root 4096 Jul 27 23:29 \u001b[30;42m..\u001b[0m\r\ntotal 12\r\ndrwxr-xr-x 3 jovyan root 4096 Jul 27 23:29 \u001b[0m\u001b[01;34m.\u001b[0m\r\ndrwxrwxrwt 1 root   root 4096 Jul 27 23:29 \u001b[30;42m..\u001b[0m\r\ndrwxr-xr-x 2 jovyan root 4096 Jul 27 23:29 \u001b[01;34mbar\u001b[0m\r\n$ "}], "tabbable": null, "tooltip": null}}, "8db75436f34d43759de5f9c4dfa88e3a": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": "1px solid black", "border_left": "1px solid black", "border_right": "1px solid black", "border_top": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "c77b1bbf5bc44d519415866d966c5038": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_8db75436f34d43759de5f9c4dfa88e3a", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "$ ln -s /bad/file/name bad-link\r\n$ ls -l bad-link\r\nlrwxrwxrwx 1 jovyan root 14 Jul 27 23:29 \u001b[0m\u001b[40;31;01mbad-link\u001b[0m -> \u001b[40;31;01m/bad/file/name\u001b[0m\r\n$ cat bad-link\r\ncat: bad-link: No such file or directory\r\n$ "}], "tabbable": null, "tooltip": null}}, "8a82605d4614443fb139829899a8e7e2": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": "1px solid black", "border_left": "1px solid black", "border_right": "1px solid black", "border_top": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "168aa38c8fac45c48f1d51d83234f0e3": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_8a82605d4614443fb139829899a8e7e2", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "$ ln -s loopy loopy\r\n$ ls -l loopy\r\nlrwxrwxrwx 1 jovyan root 5 Jul 27 23:29 \u001b[0m\u001b[40;31;01mloopy\u001b[0m -> \u001b[40;31;01mloopy\u001b[0m\r\n$ cat loopy\r\ncat: loopy: Too many levels of symbolic links\r\n$ "}], "tabbable": null, "tooltip": null}}, "feb85583d9204cbc9f1451a2e58d6449": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": "1px solid black", "border_left": "1px solid black", "border_right": "1px solid black", "border_top": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "c058fbd16789438eb3cfb5dbb4f91d88": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_feb85583d9204cbc9f1451a2e58d6449", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "$ ./fcopy2 README.md rm2\r\n$ "}], "tabbable": null, "tooltip": null}}, "27761c1a86f84f3d8be59fed18f2e786": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": "1px solid black", "border_left": "1px solid black", "border_right": "1px solid black", "border_top": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "111d7075954844b3a653f594858ca41b": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_27761c1a86f84f3d8be59fed18f2e786", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "$ echo \"diff 1\" ;  diff README.md rm2\r\ndiff 1\r\n$ "}], "tabbable": null, "tooltip": null}}, "314411cc46d44d209d09f0c413d0bea0": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": "1px solid black", "border_left": "1px solid black", "border_right": "1px solid black", "border_top": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "de123ef69cbc40179764307a0b01106c": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_314411cc46d44d209d09f0c413d0bea0", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "$ echo \"Hello class\" >> rm2 ; echo \"diff 2\"; diff README.md rm2\r\ndiff 2\r\n5a6\r\n> Hello class\r\n$ "}], "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}</script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script crossorigin="anonymous" data-jupyter-widgets-cdn="https://cdn.jsdelivr.net/npm/" src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@1.0.6/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'fs/interface';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="13. A bit about Disks" href="diskhw.html" />
     <link rel="prev" title="11. Introduction" href="intro.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro/pref.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../_static/logo.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">Introduction to Operating Systems</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
@@ -116,710 +159,353 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Getting started
- </span>
-</p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../intro/intro.html">
-   1. Introduction
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../intro/purpose.html">
-   2. Purpose of operating systems
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../intro/structure.html">
-   3. Operating System Structure &amp; Unix/Linux
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../intro/abstractions.html">
-   4. Operating System Abstractions
-  </a>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../intro/tools.html">
-   5. What you should know
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../intro/tools-shell.html">
-     5.1. Shell
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../intro/tools-editors.html">
-     5.2. Editors
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../intro/tools-make.html">
-     5.3. Makefiles
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../intro/tools-git.html">
-     5.4. Git Basics
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../intro/tools-gdb.html">
-     5.5. GDB
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../intro/tools-c.html">
-     5.6. The C Programming Language
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../intro/tools-testing.html">
-     5.7. Unit Tests
-    </a>
-   </li>
-  </ul>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/intro.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/purpose.html">2. Purpose of operating systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/structure.html">3. Operating System Structure &amp; Unix/Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/abstractions.html">4. Operating System Abstractions</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../intro/tools.html">5. What you should know</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../intro/tools-shell.html">5.1. Shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/tools-editors.html">5.2. Editors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/tools-make.html">5.3. Makefiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/tools-git.html">5.4. Git Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/tools-gdb.html">5.5. GDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/tools-c.html">5.6. The C Programming Language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/tools-testing.html">5.7. Unit Tests</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Virtual Processor
- </span>
-</p>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Virtual Processor</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../scheduling/intro.html">
-   6. Introduction
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../scheduling/process.html">
-   7. Virtualizing a CPU
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../scheduling/scheduling.html">
-   8. Scheduling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../scheduling/real_sched.html">
-   9. A Look at the Linux Scheduler
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../scheduling/review.html">
-   10. Review
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../scheduling/intro.html">6. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scheduling/process.html">7. Virtualizing a CPU</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scheduling/scheduling.html">8. Scheduling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scheduling/real_sched.html">9. A Look at the Linux Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scheduling/review.html">10. Review</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  File Systems
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">File Systems</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="intro.html">
-   11. Introduction
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   12. File System Abstraction
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="diskhw.html">
-   13. A bit about Disks
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="disklayout.html">
-   14. File System Layout
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl_track_used.html">
-   15. Disk Layout:Tracking Used Space
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl_track_free.html">
-   16. Disk Layout:Tracking Free Space
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl_name.html">
-   17. Disk Layout:Implementing Name Space
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl_failures.html">
-   18. Disk Layout:Dealing with Failures
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl_ex_exx.html">
-   19. Disk Layout:Examples of Real World File Systems
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="kernelimp.html">
-   20. Kernel implementation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="review.html">
-   21. Review
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">11. Introduction</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">12. File System Abstraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diskhw.html">13. A bit about Disks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="disklayout.html">14. File System Layout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl_track_used.html">15. Disk Layout:Tracking Used Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl_track_free.html">16. Disk Layout:Tracking Free Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl_name.html">17. Disk Layout:Implementing Name Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl_failures.html">18. Disk Layout:Dealing with Failures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl_ex_exx.html">19. Disk Layout:Examples of Real World File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernelimp.html">20. Kernel implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="review.html">21. Review</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Virtual Memory
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Virtual Memory</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../mm/intro.html">
-   22. Introduction
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../mm/phys-and-seg.html">
-   23. Memory management before paged virtual memory
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../mm/virt-paging.html">
-   24. Paging
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../mm/page-tables.html">
-   25. Page Tables
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../mm/reclamation.html">
-   26. Memory reclaiming algorithms.
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../mm/page-size.html">
-   27. Page Sizes
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../mm/misc.html">
-   28. Other topics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../mm/buffer-cache.html">
-   29. Buffer Cache
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../mm/pagefaults.html">
-   30. Memory Management Dynamics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../mm/realworld.html">
-   31. Memory management in the real world
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../mm/concl.html">
-   32. Conclusion
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../mm/review.html">
-   33. Review
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/intro.html">22. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/phys-and-seg.html">23. Memory management before paged virtual memory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/virt-paging.html">24. Paging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/page-tables.html">25. Page Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/reclamation.html">26. Memory reclaiming algorithms.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/page-size.html">27. Page Sizes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/misc.html">28. Other topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/buffer-cache.html">29. Buffer Cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/pagefaults.html">30. Memory Management Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/realworld.html">31. Memory management in the real world</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/concl.html">32. Conclusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/review.html">33. Review</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Concurrency
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Concurrency</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../sync/sync.html">
-   34. Introduction to Concurrency, Synchronization and Deadlock
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sync/sharing.html">
-   35. Cooperating Processes and Inter-process Communication
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sync/criticalsection.html">
-   36. The Critical Section Problem
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sync/locks.html">
-   37. Implementing Locks
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sync/ordering.html">
-   38. Ordering Thread Events
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sync/concurrency_bugs.html">
-   39. Common Concurrency Bugs
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sync/readmostly.html">
-   40. Read-Dominated Workloads
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sync/hardware_challenges.html">
-   41. Challenges of Modern Hardware
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sync/linux_locking.html">
-   42. Locking in the Linux Kernel
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sync/review.html">
-   43. Review
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../sync/sync.html">34. Introduction to Concurrency, Synchronization and Deadlock</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sync/sharing.html">35. Cooperating Processes and Inter-process Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sync/criticalsection.html">36. The Critical Section Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sync/locks.html">37. Implementing Locks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sync/ordering.html">38. Ordering Thread Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sync/concurrency_bugs.html">39. Common Concurrency Bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sync/readmostly.html">40. Read-Dominated Workloads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sync/hardware_challenges.html">41. Challenges of Modern Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sync/linux_locking.html">42. Locking in the Linux Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sync/review.html">43. Review</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Other Topics
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Other Topics</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../devices/devices.html">
-   44. Input and Output
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../devices/disk2.html">
-   45. More on Disks
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../virt/virt.html">
-   46. Virtualization
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sec/sec.html">
-   47. Security
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../devices/devices.html">44. Input and Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devices/disk2.html">45. More on Disks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/virt.html">46. Virtualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sec/sec.html">47. Security</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Appendices
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../misc/howto.html">
-   48. How to read this book
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../contributing/Contributing.html">
-   49. Contributing
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../misc/bib.html">
-   50. Bibliography
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/howto.html">48. How to read this book</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/Contributing.html">49. Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/bib.html">50. Bibliography</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
-          
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
 <div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
 
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://jupyterhub-opf-jupyterhub.apps.smaug.na.operate-first.cloud/hub/user-redirect/git-pull?repo=https%3A//github.com/OpenOSOrg/openos&urlpath=lab/tree/openos/content/fs/interface.ipynb&branch=main"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on JupyterHub"
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://jupyterhub-opf-jupyterhub.apps.smaug.na.operate-first.cloud/hub/user-redirect/git-pull?repo=https%3A//github.com/OpenOSOrg/openos&urlpath=lab/tree/openos/content/fs/interface.ipynb&branch=main" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onJupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
     <img src="../_static/images/logo_jupyterhub.svg">
   </span>
-<span class="headerbtn__text-container">JupyterHub</span>
+<span class="btn__text-container">JupyterHub</span>
 </a>
-
-      </li>
+</li>
       
-    </ul>
-  </div>
+  </ul>
 </div>
 
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/OpenOSOrg/openos" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OpenOSOrg/openos/edit/main/content/fs/interface.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OpenOSOrg/openos/issues/new?title=Issue%20on%20page%20%2Ffs/interface.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/fs/interface.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/OpenOSOrg/openos"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/OpenOSOrg/openos/issues/new?title=Issue%20on%20page%20%2Ffs/interface.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/OpenOSOrg/openos/edit/main/content/fs/interface.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Edit this page"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-pencil-alt"></i>
-  </span>
-<span class="headerbtn__text-container">suggest edit</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/fs/interface.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#naming">
-   12.1. Naming
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#objects">
-   12.2. Objects
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#files">
-     12.2.1. Files
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#directory">
-     12.2.2. Directory
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#symbolic-links">
-     12.2.3. Symbolic links
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#file-system-operations">
-   12.3. File System Operations:
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#open-close">
-     12.3.1. Open/close
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#read-write-operations">
-       12.3.1.1. Read/Write operations
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#naming-and-directories">
-     12.3.2. Naming and Directories
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#some-examples">
-   12.4. Some examples
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>File System Abstraction</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#naming">
-   12.1. Naming
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#objects">
-   12.2. Objects
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#files">
-     12.2.1. Files
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#directory">
-     12.2.2. Directory
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#symbolic-links">
-     12.2.3. Symbolic links
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#file-system-operations">
-   12.3. File System Operations:
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#open-close">
-     12.3.1. Open/close
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#read-write-operations">
-       12.3.1.1. Read/Write operations
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#naming-and-directories">
-     12.3.2. Naming and Directories
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#some-examples">
-   12.4. Some examples
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>File System Abstraction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#naming">12.1. Naming</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objects">12.2. Objects</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#files">12.2.1. Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#directory">12.2.2. Directory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#symbolic-links">12.2.3. Symbolic links</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-system-operations">12.3. File System Operations:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#open-close">12.3.1. Open/close</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#read-write-operations">12.3.1.1. Read/Write operations</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#naming-and-directories">12.3.2. Naming and Directories</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-examples">12.4. Some examples</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <div class="cell tag_remove-input tag_hide-output docutils container">
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="file-system-abstraction">
@@ -863,9 +549,7 @@ Unix enables a file system to be <em>mounted</em> onto a directory in
 another file system, giving a single uniform namespace.  For example, on the systems you are using, there is an <em>ext4</em> file system mounted in the root file system at <code class="docutils literal notranslate"><span class="pre">/opt/app-root/src</span></code>, which you can see if you use the mount command to list all the file systems mounted on this computer.</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "da2d432b48c84f9088618caba8161066", "version_major": 2, "version_minor": 0}
-</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "c32ed84dd5a344e0a395c038fcd2ba2b"}</script></div>
 </div>
 <p>The actual implementation of mounting in Linux and other Unix-like
 systems is implemented via a <em>mount table</em>, a small table in the kernel
@@ -887,7 +571,7 @@ Unix systems see the <code class="docutils literal notranslate"><span class="pre
 <p style='text-align: right;'> ---Dennis Ritchie, <a href='https://lkml.indiana.edu/hypermail/linux/kernel/0207.2/1182.html'>[LKML 2002]</a></p>
 </aside>
 <p>Once you use a pathname to find an object in the file system, you need to find out what kind of an object you have found.  Each file is identified in the file system by a unique <strong>inode number</strong> that references an <strong>inode</strong> data structure that maintains all kinds of information, or <em>meta-data</em> about the file (try <code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">inode</span></code> for more information).   While the inode itself is internal to the file system, and contains additional information, generic information can be obtained for any file as described <a class="reference internal" href="#cont-fs-calls-naming"><span class="std std-ref">below</span></a>.  One of the fields in an inode identifies the type of object that the inode refers to. The types of objects that can be referenced by inode are shown in <a class="reference internal" href="#file-types"><span class="std std-numref">Table 12.1</span></a>.</p>
-<table class="colwidths-given table" id="file-types">
+<table class="colwidths-given table" id="file-types" style="width: 4in">
 <caption><span class="caption-number">Table 12.1 </span><span class="caption-text">Types of objects in a file system. </span><a class="headerlink" href="#file-types" title="Permalink to this table">#</a></caption>
 <colgroup>
 <col style="width: 29%" />
@@ -965,9 +649,7 @@ end).</p>
 <p>As shown in <a class="reference internal" href="#fs-tree-imp"><span class="std std-numref">Fig. 12.2</span></a>, a directory contains entries with strings that identify objects contained in the directory, and for each the inode numbers that can then be used to find out more information about the corresponding object.   The same inode can be referenced by multiple directories, with potentially different names. Each directory entry that maps a name to an inode number is called a <em>hard link</em> to the inode, and another field in the inode structure records the number of hard links to that inode.  For example, the entry named <code class="docutils literal notranslate"><span class="pre">..</span></code> in any directory is a hard link to the parent directory. To illustrate this point, let’s create a directory named <code class="docutils literal notranslate"><span class="pre">foo</span></code> in the <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> directory and see how the link count for <code class="docutils literal notranslate"><span class="pre">foo</span></code> changes when we create a subdirectory <code class="docutils literal notranslate"><span class="pre">bar</span></code> inside foo.</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "7aca5b172d9040bcb82f3bb3413aa57e", "version_major": 2, "version_minor": 0}
-</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "dcfa2e0fd0dd4091b60310f79d789c55"}</script></div>
 </div>
 <p>As we can see, after creating a directory <code class="docutils literal notranslate"><span class="pre">/tmp/foo</span></code> the reference count (second entry in the output above) for the <code class="docutils literal notranslate"><span class="pre">.</span></code> in <code class="docutils literal notranslate"><span class="pre">foo</span></code> is 2 before we create a subdirectory  <code class="docutils literal notranslate"><span class="pre">bar</span></code> in it, and 3 after. The initial two links come from the parent directory’s entry named <code class="docutils literal notranslate"><span class="pre">foo</span></code>, and the <code class="docutils literal notranslate"><span class="pre">.</span></code> entry in <code class="docutils literal notranslate"><span class="pre">foo</span></code> itself. After the creation of <code class="docutils literal notranslate"><span class="pre">bar</span></code>, there is a third link to the inode for <code class="docutils literal notranslate"><span class="pre">foo</span></code> due to the <code class="docutils literal notranslate"><span class="pre">..</span></code> entry in <code class="docutils literal notranslate"><span class="pre">bar</span></code>, which refers to its parent directory.</p>
 <p>The link count in an inode ensures that the object the inode refers to (file or directory) will not be deleted as long as there is at least one hard link to the inode. When you issue a delete command for a filename (e.g., ‘rm somefile’), the file system removes the entry for the filename from a directory and decrements the link count on the inode that entry referred to. Only when the last hard link is removed will the file object really be freed.</p>
@@ -988,7 +670,7 @@ directory: /usr/program-1.0.1
 </pre>
 <p>and if the OS is looking up the file <code class="docutils literal notranslate"><span class="pre">/usr/program-current/file.txt</span></code>, it
 will:</p>
-<ol class="simple">
+<ol class="arabic simple">
 <li><p>look up <code class="docutils literal notranslate"><span class="pre">usr</span></code> in the root directory, finding a pointer to the <code class="docutils literal notranslate"><span class="pre">/usr</span></code>
 directory</p></li>
 <li><p>look up <code class="docutils literal notranslate"><span class="pre">program-current</span></code> in <code class="docutils literal notranslate"><span class="pre">/usr</span></code>, finding the link with contents
@@ -1004,17 +686,13 @@ created in error, or the file or directory it points to is deleted
 later. In that case path translation will fail with an error:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "7352e08de0e44639a5da42a21b7cb5b9", "version_major": 2, "version_minor": 0}
-</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "c77b1bbf5bc44d519415866d966c5038"}</script></div>
 </div>
 <p>Finally, to prevent loops there is a limit on how many levels of
 symbolic link may be traversed in a single path translation:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "d214486fc975417293a8c25eed1fb8f4", "version_major": 2, "version_minor": 0}
-</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "168aa38c8fac45c48f1d51d83234f0e3"}</script></div>
 </div>
 </section>
 </section>
@@ -1097,21 +775,21 @@ in the same directory) or creating a new entry and deleting the old one
 <li><p><code class="docutils literal notranslate"><span class="pre">desc</span> <span class="pre">=</span> <span class="pre">opendir(path)</span></code>, <code class="docutils literal notranslate"><span class="pre">readdir(desc,</span> <span class="pre">dirent*),</span> <span class="pre">dirent=(name,type,length)</span></code>: This interface allows a program to enumerate names in a directory, and determine their type (i.e., file, directory, symbolic link, or special-purpose file).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">stat(file,</span> <span class="pre">statbuf)</span></code>, <code class="docutils literal notranslate"><span class="pre">fstat(desc,</span> <span class="pre">statbuf)</span></code>:  returns information about the file such as  size, owner, permissions, modification time, etc. These are attributes of the file itself, residing in the inode and returned in the following structure.</p></li>
 </ul>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">stat</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kt">dev_t</span><span class="w">     </span><span class="n">st_dev</span><span class="p">;</span><span class="w">         </span><span class="cm">/* ID of device containing file */</span><span class="w"></span>
-<span class="w">  </span><span class="kt">ino_t</span><span class="w">     </span><span class="n">st_ino</span><span class="p">;</span><span class="w">         </span><span class="cm">/* Inode number */</span><span class="w"></span>
-<span class="w">  </span><span class="kt">mode_t</span><span class="w">    </span><span class="n">st_mode</span><span class="p">;</span><span class="w">        </span><span class="cm">/* File type and mode */</span><span class="w"></span>
-<span class="w">  </span><span class="n">nlink_t</span><span class="w">   </span><span class="n">st_nlink</span><span class="p">;</span><span class="w">       </span><span class="cm">/* Number of hard links */</span><span class="w"></span>
-<span class="w">  </span><span class="kt">uid_t</span><span class="w">     </span><span class="n">st_uid</span><span class="p">;</span><span class="w">         </span><span class="cm">/* User ID of owner */</span><span class="w"></span>
-<span class="w">  </span><span class="kt">gid_t</span><span class="w">     </span><span class="n">st_gid</span><span class="p">;</span><span class="w">         </span><span class="cm">/* Group ID of owner */</span><span class="w"></span>
-<span class="w">  </span><span class="kt">dev_t</span><span class="w">     </span><span class="n">st_rdev</span><span class="p">;</span><span class="w">        </span><span class="cm">/* Device ID (if special file) */</span><span class="w"></span>
-<span class="w">  </span><span class="kt">off_t</span><span class="w">     </span><span class="n">st_size</span><span class="p">;</span><span class="w">        </span><span class="cm">/* Total size, in bytes */</span><span class="w"></span>
-<span class="w">  </span><span class="n">blksize_t</span><span class="w"> </span><span class="n">st_blksize</span><span class="p">;</span><span class="w">     </span><span class="cm">/* Block size for filesystem I/O */</span><span class="w"></span>
-<span class="w">  </span><span class="n">blkcnt_t</span><span class="w">  </span><span class="n">st_blocks</span><span class="p">;</span><span class="w">      </span><span class="cm">/* Number of 512B blocks allocated */</span><span class="w"></span>
-<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="n">st_atim</span><span class="p">;</span><span class="w">  </span><span class="cm">/* Time of last access */</span><span class="w"></span>
-<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="n">st_mtim</span><span class="p">;</span><span class="w">  </span><span class="cm">/* Time of last modification */</span><span class="w"></span>
-<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="n">st_ctim</span><span class="p">;</span><span class="w">  </span><span class="cm">/* Time of last status change */</span><span class="w"></span>
-<span class="p">};</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">stat</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">dev_t</span><span class="w">     </span><span class="n">st_dev</span><span class="p">;</span><span class="w">         </span><span class="cm">/* ID of device containing file */</span>
+<span class="w">  </span><span class="kt">ino_t</span><span class="w">     </span><span class="n">st_ino</span><span class="p">;</span><span class="w">         </span><span class="cm">/* Inode number */</span>
+<span class="w">  </span><span class="kt">mode_t</span><span class="w">    </span><span class="n">st_mode</span><span class="p">;</span><span class="w">        </span><span class="cm">/* File type and mode */</span>
+<span class="w">  </span><span class="n">nlink_t</span><span class="w">   </span><span class="n">st_nlink</span><span class="p">;</span><span class="w">       </span><span class="cm">/* Number of hard links */</span>
+<span class="w">  </span><span class="kt">uid_t</span><span class="w">     </span><span class="n">st_uid</span><span class="p">;</span><span class="w">         </span><span class="cm">/* User ID of owner */</span>
+<span class="w">  </span><span class="kt">gid_t</span><span class="w">     </span><span class="n">st_gid</span><span class="p">;</span><span class="w">         </span><span class="cm">/* Group ID of owner */</span>
+<span class="w">  </span><span class="kt">dev_t</span><span class="w">     </span><span class="n">st_rdev</span><span class="p">;</span><span class="w">        </span><span class="cm">/* Device ID (if special file) */</span>
+<span class="w">  </span><span class="kt">off_t</span><span class="w">     </span><span class="n">st_size</span><span class="p">;</span><span class="w">        </span><span class="cm">/* Total size, in bytes */</span>
+<span class="w">  </span><span class="n">blksize_t</span><span class="w"> </span><span class="n">st_blksize</span><span class="p">;</span><span class="w">     </span><span class="cm">/* Block size for filesystem I/O */</span>
+<span class="w">  </span><span class="n">blkcnt_t</span><span class="w">  </span><span class="n">st_blocks</span><span class="p">;</span><span class="w">      </span><span class="cm">/* Number of 512B blocks allocated */</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="n">st_atim</span><span class="p">;</span><span class="w">  </span><span class="cm">/* Time of last access */</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="n">st_mtim</span><span class="p">;</span><span class="w">  </span><span class="cm">/* Time of last modification */</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="n">st_ctim</span><span class="p">;</span><span class="w">  </span><span class="cm">/* Time of last status change */</span>
+<span class="p">};</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -1185,23 +863,17 @@ in the same directory) or creating a new entry and deleting the old one
 </div>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "8a29a75d12b94856a09378c244e72513", "version_major": 2, "version_minor": 0}
-</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "c058fbd16789438eb3cfb5dbb4f91d88"}</script></div>
 </div>
 <p>To prove these are the same, let’s first use the <code class="docutils literal notranslate"><span class="pre">diff</span></code> program to compare them:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "e68138992c32496abd6b00bc5aeeb017", "version_major": 2, "version_minor": 0}
-</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "111d7075954844b3a653f594858ca41b"}</script></div>
 </div>
 <p>We can see that there is no difference between the files, since <code class="docutils literal notranslate"><span class="pre">diff</span></code> produces no output. But just to be sure, let’s append a string to the end of the copy (i.e., echo “Hello class” &gt;&gt; rm2) and use the <code class="docutils literal notranslate"><span class="pre">diff</span></code> program to compare them again.</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "a2963f39f0b54dbfadfa8fa78117bd82", "version_major": 2, "version_minor": 0}
-</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "de123ef69cbc40179764307a0b01106c"}</script></div>
 </div>
 <p>And here we see that the only difference is the line we just appended to the copy of the original <code class="docutils literal notranslate"><span class="pre">README.md</span></code> file.</p>
 <hr class="footnotes docutils" />
@@ -1245,12 +917,6 @@ deleted.</p>
 </section>
 </section>
 
-
-<script type="application/vnd.jupyter.widget-state+json">
-{"state": {"04a7991f6d874cc3a64045554e2092e4": {"model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "model_name": "OutputModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_2f465b1f54514f83befde441012f46dc", "msg_id": "", "outputs": [{"name": "stdout", "output_type": "stream", "text": "$ [[ -d mydir ]] && rm -rf mydir\r\n$     [[ -a /tmp/foo ]] && rm -rf /tmp/foo\r\n$     [[ -a errors ]] && rm errors \r\n$     [[ -a mydate ]] && rm mydate\r\n$     [[ -a mynewdir ]] && rm -rf mynewdir\r\n$     [[ -a anotherfile ]] && rm anotherfile\r\n$     [[ -a mybin ]] && rm -rf  mybin\r\n$     [[ -a myinfo ]] && rm myinfo\r\n$ "}]}}, "2f465b1f54514f83befde441012f46dc": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": "scroll", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "399b88a5fa624bac87ada79e82c57cb2": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": "scroll", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "3a68e41ae6c54c1e8642b5add9b24e5b": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": "scroll", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "6b2b45383a014ac4971df79c9fb08f42": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": "scroll", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7352e08de0e44639a5da42a21b7cb5b9": {"model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "model_name": "OutputModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_b95c212840664212846d25a54176d4d0", "msg_id": "", "outputs": [{"name": "stdout", "output_type": "stream", "text": "$ ln -s /bad/file/name bad-link\r\n$ ls -l bad-link\r\nlrwxrwxrwx. 1 jovyan root 14 Jul 24 20:47 \u001b[0m\u001b[40;31;01mbad-link\u001b[0m -> \u001b[40;31;01m/bad/file/name\u001b[0m\r\n$ cat bad-link\r\ncat: bad-link: No such file or directory\r\n$ "}]}}, "7aca5b172d9040bcb82f3bb3413aa57e": {"model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "model_name": "OutputModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_b3bd26feea9d4291b7088e97de76e2a3", "msg_id": "", "outputs": [{"name": "stdout", "output_type": "stream", "text": "$ mkdir /tmp/foo; ls -al /tmp/foo; mkdir /tmp/foo/bar ; ls -al /tmp/foo\r\ntotal 0\r\ndrwxr-xr-x. 2 jovyan root   6 Jul 24 20:47 \u001b[0m\u001b[01;34m.\u001b[0m\r\ndrwxrwxrwt. 1 root   root 180 Jul 24 20:47 \u001b[30;42m..\u001b[0m\r\ntotal 0\r\ndrwxr-xr-x. 3 jovyan root  17 Jul 24 20:47 \u001b[0m\u001b[01;34m.\u001b[0m\r\ndrwxrwxrwt. 1 root   root 180 Jul 24 20:47 \u001b[30;42m..\u001b[0m\r\ndrwxr-xr-x. 2 jovyan root   6 Jul 24 20:47 \u001b[01;34mbar\u001b[0m\r\n$ "}]}}, "8a29a75d12b94856a09378c244e72513": {"model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "model_name": "OutputModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_399b88a5fa624bac87ada79e82c57cb2", "msg_id": "", "outputs": [{"name": "stdout", "output_type": "stream", "text": "$ ./fcopy2 README.md rm2\r\n$ "}]}}, "8f228216ed8e4c45b73d6b03616d5c60": {"model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "model_name": "OutputModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_6b2b45383a014ac4971df79c9fb08f42", "msg_id": "", "outputs": [{"name": "stdout", "output_type": "stream", "text": "$ ls \ndiskhw.ipynb                  dl_failures.ipynb    intro.ipynb\r\ndisklayout-saved-peter.ipynb  dl_name.ipynb        kernelimp.ipynb\r\ndisklayout.ipynb              dl_track_free.ipynb  review.ipynb\r\ndl_blocksize.ipynb            dl_track_used.ipynb\r\ndl_ex_exx.ipynb               interface.ipynb\r\n$ "}]}}, "948e24b36cf84e4a9f196a932e5f5c5c": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": "scroll", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "a2963f39f0b54dbfadfa8fa78117bd82": {"model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "model_name": "OutputModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_fb88bba7b7354f94965e62e00ed29172", "msg_id": "", "outputs": [{"name": "stdout", "output_type": "stream", "text": "$ echo \"Hello class\" >> rm2 ; echo \"diff 2\"; diff README.md rm2\r\ndiff 2\r\n5a6\r\n> Hello class\r\n$ "}]}}, "b3bd26feea9d4291b7088e97de76e2a3": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": "scroll", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "b95c212840664212846d25a54176d4d0": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": "scroll", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "c1d86de47ea74afcbffac8d52d3f9cd4": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": "scroll", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "d214486fc975417293a8c25eed1fb8f4": {"model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "model_name": "OutputModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_948e24b36cf84e4a9f196a932e5f5c5c", "msg_id": "", "outputs": [{"name": "stdout", "output_type": "stream", "text": "$ ln -s loopy loopy\r\n$ ls -l loopy\r\nlrwxrwxrwx. 1 jovyan root 5 Jul 24 20:47 \u001b[0m\u001b[40;31;01mloopy\u001b[0m -> \u001b[40;31;01mloopy\u001b[0m\r\n$ cat loopy\r\ncat: loopy: Too many levels of symbolic links\r\n$ "}]}}, "da2d432b48c84f9088618caba8161066": {"model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "model_name": "OutputModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_3a68e41ae6c54c1e8642b5add9b24e5b", "msg_id": "", "outputs": [{"name": "stdout", "output_type": "stream", "text": "$ mount | grep ext4\r\n/dev/nvme1n1 on /opt/app-root/src type \u001b[01;31m\u001b[Kext4\u001b[m\u001b[K (rw,relatime,seclabel)\r\n$ "}]}}, "e68138992c32496abd6b00bc5aeeb017": {"model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "model_name": "OutputModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_c1d86de47ea74afcbffac8d52d3f9cd4", "msg_id": "", "outputs": [{"name": "stdout", "output_type": "stream", "text": "$ echo \"diff 1\" ;  diff README.md rm2\r\ndiff 1\r\n$ "}]}}, "fb88bba7b7354f94965e62e00ed29172": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": "1px solid black", "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "100%", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": "scroll", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}}, "version_major": 2, "version_minor": 0}
-</script>
-
-
     <script type="text/x-thebe-config">
     {
         requestKernel: true,
@@ -1263,7 +929,7 @@ deleted.</p>
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./fs"
         },
         predefinedOutput: true
@@ -1271,50 +937,120 @@ deleted.</p>
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><span class="section-number">11. </span>Introduction</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">11. </span>Introduction</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="diskhw.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="diskhw.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title"><span class="section-number">13. </span>A bit about Disks</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By (see contributing chapter book)<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
-    
-</div>
-
-
       </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#naming">12.1. Naming</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objects">12.2. Objects</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#files">12.2.1. Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#directory">12.2.2. Directory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#symbolic-links">12.2.3. Symbolic links</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-system-operations">12.3. File System Operations:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#open-close">12.3.1. Open/close</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#read-write-operations">12.3.1.1. Read/Write operations</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#naming-and-directories">12.3.2. Naming and Directories</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-examples">12.4. Some examples</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By (see contributing chapter book)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
