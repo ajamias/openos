@@ -88,6 +88,7 @@ parts:
   - file: sec/sec
 #  - file: intro/other
 #  - file: devices/block-dev
+  - file: networking/networking
 - caption: 'Appendices'
   numbered: True
   chapters:
