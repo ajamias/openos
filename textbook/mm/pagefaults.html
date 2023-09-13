@@ -584,7 +584,7 @@ more thorough description of the Linux memory layout can be found <a class="refe
 portions of the address space for programs and for the operating system.
 The same approach is often used in dividing up the virtual address space
 in more complex operating systems, as seen in the 32-bit Linux memory
-map in (#fig:vm:pic100). In recent Linux versions running on 32-bit
+map in <a class="reference internal" href="#fig-vm-fig100"><span class="std std-numref">Fig. 30.1</span></a>. In recent Linux versions running on 32-bit
 Intel-compatible CPUs, the kernel “owns” the top 1GB, from virtual
 address 0xC0000000 to 0xFFFFFFFF, and all kernel code, data structures,
 and temporary mappings go in this range.</p>
@@ -679,31 +679,31 @@ display an “Oops” message, as shown below, while in Windows the result is ty
 the time in Linux the process executing when this happens will be
 terminated, but the rest of the system remains running with possibly
 reduced functionality.</p>
-<pre>
-[  397.864759] BUG: unable to handle kernel NULL pointer dereference at 
-                                                                0000000000000004
-[  397.865725] IP: [<ffffffffc01d1027>] track2lba+0x27/0x3f [dm_vguard]
-[  397.866619] PGD 0 
-[  397.866929] Oops: 0000 [#1] SMP 
-[  397.867395] Modules linked in: [...]
-[  397.872730] CPU: 0 PID: 1335 Comm: dmsetup Tainted: G           OE   4.6.0 #3
-[  397.873419] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS ...
-[  397.874487] task: ffff88003cd10e40 ti: ffff880037080000 task.ti: ffff88003708
-[  397.875375] RIP: 0010:[<ffffffffc01d1027>]  [<ffffffffc01d1027>] track2lba+0x27
-[  397.876509] RSP: 0018:ffff880037083bd0  EFLAGS: 00010282
-[  397.877193] RAX: 0000000000000001 RBX: 0000000000003520 RCX: 0000000000000000
-[  397.878085] RDX: 0000000000000000 RSI: 0000000000003520 RDI: ffff880036bd70c0
-[  397.879016] RBP: ffff880037083bd0 R08: 00000000000001b0 R09: 0000000000000000
-[  397.879912] R10: 000000000000000a R11: f000000000000000 R12: ffff880036bd70c0
-[  397.880763] R13: 00000000002e46e0 R14: ffffc900001f7040 R15: 0000000000000000
-[  397.881618] FS:  00007f5767938700(0000) GS:ffff88003fc00000(0000) 
-[  397.915186] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  397.932122] CR2: 0000000000000004 CR3: 000000003d3ea000 CR4: 00000000000406f0
-[  397.949459] Stack:
-                      ... stack contents and backtrace omitted ...
-</pre>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>  <span class="mf">397.864759</span><span class="p">]</span> <span class="n">BUG</span><span class="p">:</span> <span class="n">unable</span> <span class="n">to</span> <span class="n">handle</span> <span class="n">kernel</span> <span class="n">NULL</span> <span class="n">pointer</span> <span class="n">dereference</span> <span class="n">at</span> 
+                                                                <span class="mi">0000000000000004</span>
+<span class="p">[</span>  <span class="mf">397.865725</span><span class="p">]</span> <span class="n">IP</span><span class="p">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ffffffffc01d1027</span><span class="o">&gt;</span><span class="p">]</span> <span class="n">track2lba</span><span class="o">+</span><span class="mh">0x27</span><span class="o">/</span><span class="mh">0x3f</span> <span class="p">[</span><span class="n">dm_vguard</span><span class="p">]</span>
+<span class="p">[</span>  <span class="mf">397.866619</span><span class="p">]</span> <span class="n">PGD</span> <span class="mi">0</span> 
+<span class="p">[</span>  <span class="mf">397.866929</span><span class="p">]</span> <span class="n">Oops</span><span class="p">:</span> <span class="mi">0000</span> <span class="p">[</span><span class="c1">#1] SMP </span>
+<span class="p">[</span>  <span class="mf">397.867395</span><span class="p">]</span> <span class="n">Modules</span> <span class="n">linked</span> <span class="ow">in</span><span class="p">:</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="p">[</span>  <span class="mf">397.872730</span><span class="p">]</span> <span class="n">CPU</span><span class="p">:</span> <span class="mi">0</span> <span class="n">PID</span><span class="p">:</span> <span class="mi">1335</span> <span class="n">Comm</span><span class="p">:</span> <span class="n">dmsetup</span> <span class="n">Tainted</span><span class="p">:</span> <span class="n">G</span>           <span class="n">OE</span>   <span class="mf">4.6.0</span> <span class="c1">#3</span>
+<span class="p">[</span>  <span class="mf">397.873419</span><span class="p">]</span> <span class="n">Hardware</span> <span class="n">name</span><span class="p">:</span> <span class="n">QEMU</span> <span class="n">Standard</span> <span class="n">PC</span> <span class="p">(</span><span class="n">i440FX</span> <span class="o">+</span> <span class="n">PIIX</span><span class="p">,</span> <span class="mi">1996</span><span class="p">),</span> <span class="n">BIOS</span> <span class="o">...</span>
+<span class="p">[</span>  <span class="mf">397.874487</span><span class="p">]</span> <span class="n">task</span><span class="p">:</span> <span class="n">ffff88003cd10e40</span> <span class="n">ti</span><span class="p">:</span> <span class="n">ffff880037080000</span> <span class="n">task</span><span class="o">.</span><span class="n">ti</span><span class="p">:</span> <span class="n">ffff88003708</span>
+<span class="p">[</span>  <span class="mf">397.875375</span><span class="p">]</span> <span class="n">RIP</span><span class="p">:</span> <span class="mi">0010</span><span class="p">:[</span><span class="o">&lt;</span><span class="n">ffffffffc01d1027</span><span class="o">&gt;</span><span class="p">]</span>  <span class="p">[</span><span class="o">&lt;</span><span class="n">ffffffffc01d1027</span><span class="o">&gt;</span><span class="p">]</span> <span class="n">track2lba</span><span class="o">+</span><span class="mh">0x27</span>
+<span class="p">[</span>  <span class="mf">397.876509</span><span class="p">]</span> <span class="n">RSP</span><span class="p">:</span> <span class="mi">0018</span><span class="p">:</span><span class="n">ffff880037083bd0</span>  <span class="n">EFLAGS</span><span class="p">:</span> <span class="mi">00010282</span>
+<span class="p">[</span>  <span class="mf">397.877193</span><span class="p">]</span> <span class="n">RAX</span><span class="p">:</span> <span class="mi">0000000000000001</span> <span class="n">RBX</span><span class="p">:</span> <span class="mi">0000000000003520</span> <span class="n">RCX</span><span class="p">:</span> <span class="mi">0000000000000000</span>
+<span class="p">[</span>  <span class="mf">397.878085</span><span class="p">]</span> <span class="n">RDX</span><span class="p">:</span> <span class="mi">0000000000000000</span> <span class="n">RSI</span><span class="p">:</span> <span class="mi">0000000000003520</span> <span class="n">RDI</span><span class="p">:</span> <span class="n">ffff880036bd70c0</span>
+<span class="p">[</span>  <span class="mf">397.879016</span><span class="p">]</span> <span class="n">RBP</span><span class="p">:</span> <span class="n">ffff880037083bd0</span> <span class="n">R08</span><span class="p">:</span> <span class="mi">00000000000001</span><span class="n">b0</span> <span class="n">R09</span><span class="p">:</span> <span class="mi">0000000000000000</span>
+<span class="p">[</span>  <span class="mf">397.879912</span><span class="p">]</span> <span class="n">R10</span><span class="p">:</span> <span class="mi">000000000000000</span><span class="n">a</span> <span class="n">R11</span><span class="p">:</span> <span class="n">f000000000000000</span> <span class="n">R12</span><span class="p">:</span> <span class="n">ffff880036bd70c0</span>
+<span class="p">[</span>  <span class="mf">397.880763</span><span class="p">]</span> <span class="n">R13</span><span class="p">:</span> <span class="mf">00000000002e46</span><span class="n">e0</span> <span class="n">R14</span><span class="p">:</span> <span class="n">ffffc900001f7040</span> <span class="n">R15</span><span class="p">:</span> <span class="mi">0000000000000000</span>
+<span class="p">[</span>  <span class="mf">397.881618</span><span class="p">]</span> <span class="n">FS</span><span class="p">:</span>  <span class="mi">00007</span><span class="n">f5767938700</span><span class="p">(</span><span class="mi">0000</span><span class="p">)</span> <span class="n">GS</span><span class="p">:</span><span class="n">ffff88003fc00000</span><span class="p">(</span><span class="mi">0000</span><span class="p">)</span> 
+<span class="p">[</span>  <span class="mf">397.915186</span><span class="p">]</span> <span class="n">CS</span><span class="p">:</span>  <span class="mi">0010</span> <span class="n">DS</span><span class="p">:</span> <span class="mi">0000</span> <span class="n">ES</span><span class="p">:</span> <span class="mi">0000</span> <span class="n">CR0</span><span class="p">:</span> <span class="mi">0000000080050033</span>
+<span class="p">[</span>  <span class="mf">397.932122</span><span class="p">]</span> <span class="n">CR2</span><span class="p">:</span> <span class="mi">0000000000000004</span> <span class="n">CR3</span><span class="p">:</span> <span class="mi">000000003</span><span class="n">d3ea000</span> <span class="n">CR4</span><span class="p">:</span> <span class="mi">00000000000406</span><span class="n">f0</span>
+<span class="p">[</span>  <span class="mf">397.949459</span><span class="p">]</span> <span class="n">Stack</span><span class="p">:</span>
+                      <span class="o">...</span> <span class="n">stack</span> <span class="n">contents</span> <span class="ow">and</span> <span class="n">backtrace</span> <span class="n">omitted</span> <span class="o">...</span>
+</pre></div>
+</div>
 <p>But what about addresses passed by the user in a system call? For
-example, what if the memory address passed to a <span class="xref myst">read</span>{.uri}
+example, what if the memory address passed to a <code class="docutils literal notranslate"><span class="pre">read</span></code>
 system call has been paged out, or not instantiated yet? It turns out
 that the same page faulting logic can be used in the kernel, as
 well—the first access to an unmapped page will result in a fault, the
@@ -717,8 +717,7 @@ only that, but the POSIX standard requires that system calls return the
 EFAULT error in response to bad addresses, not exit.) Instead, all code
 in the Linux kernel which accesses user-provided memory addresses is
 supposed to use a pair of functions,
-<span class="xref myst">copy_from_user</span>{.uri} and
-<span class="xref myst">copy_to_user</span>{.uri}, which check that the user-provided
+<code class="docutils literal notranslate"><span class="pre">copy_from_user</span></code> and <code class="docutils literal notranslate"><span class="pre">copy_to_user</span></code>, which check that the user-provided
 memory region is valid for user-mode access[^11].</p>
 <p>In very early versions of Linux the kernel ran in a separate address
 space where virtual addresses mapped directly to physical addresses, and
@@ -730,14 +729,13 @@ region of each each process virtual address space, making these functions
 much faster but more
 complicated. The speedup is because there is no longer any need to
 translate page tables in software; instead the two
-<span class="xref myst">copy_*_user</span>{.uri} functions just perform a few checks
-and then a <span class="xref myst">memcpy</span>{.uri}. More complicated because if it fails
+<code class="docutils literal notranslate"><span class="pre">copy_*_user</span></code> functions just perform a few checks
+and then a <code class="docutils literal notranslate"><span class="pre">memcpy</span></code>. More complicated because if it fails
 we don’t find out about it in either of these functions, but rather in
 the page fault handler itself. To make this work, if the page fault (a)
 occurs in kernel mode, and (b) the handler can’t find a translation for
 the address, it checks to see if the fault occurred while executing the
-<span class="xref myst">copy_from_user</span>{.uri} or
-<span class="xref myst">copy_to_user</span>{.uri} functions, and if so it performs some
+<code class="docutils literal notranslate"><span class="pre">copy_from_user</span></code> or <code class="docutils literal notranslate"><span class="pre">copy_to_user</span></code> functions, and if so it performs some
 horrible stack manipulation to cause that function to return an error
 code[^12].</p>
 <p>But what if a page fault occurs in the kernel outside of these two
@@ -745,9 +743,7 @@ functions? That should never happen, because kernel structures are
 allocated from memory that’s already mapped in the kernel address space.
 In other words it’s a bug, just like the bugs that cause segmentation
 faults in your C programs. And just like those bugs it causes a crash,
-resulting in an error message such as the one shown in
-<span class="xref myst">[lst:vm:oops]</span>{reference-type=”autoref”
-reference=”lst:vm:oops”}. If the kernel was running in a process context
+resulting in an error message such as the one shown above. If the kernel was running in a process context
 (e.g. executing system call code) then the currently-running process
 will be killed.  This behavior is really not safe because its likely some
 corruption of kernel data structures and not likely cause be the process

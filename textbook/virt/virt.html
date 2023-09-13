@@ -976,11 +976,10 @@ system calls perform hardware-level operations like loading a page
 table, allocating physical memory, or installing a page fault handler.</p>
 <aside class="sidebar">
 <p>If you’re curious, the Linux code to switch address spaces can be found
-in the <code class="docutils literal notranslate"><span class="pre">activate_mm</span></code> macro in
-<span class="xref myst">arch/x86/include/asm/context.h</span>{.uri}.
+in the <code class="docutils literal notranslate"><span class="pre">activate_mm</span></code> macro in arch/x86/include/asm/context.h.
 On regular hardware it calls <code class="docutils literal notranslate"><span class="pre">switch_mm</span></code> which executes a <code class="docutils literal notranslate"><span class="pre">LOAD</span> <span class="pre">CR3</span></code>
 instruction; in paravirtualized mode it calls <code class="docutils literal notranslate"><span class="pre">paravirt_activate_mm</span></code> (in
-<span class="xref myst">arch/x86/include/asm/</span>{.uri}<span class="xref myst">paravirt.h</span>{.uri})
+arch/x86/include/asm/paravirt.h)
 which invokes a “hypercall” to request the hypervisor to perform the
 operation.</p>
 </aside>
@@ -1016,7 +1015,7 @@ writers don’t typically anticipate the need to support plugging in a
 different type of CPU.</p>
 </section>
 <section id="linux-containers-and-docker">
-<h2><span class="section-number">46.7. </span>Linux Containers and Docker<a class="headerlink" href="#linux-containers-and-docker" title="Permalink to this headline">#</a></h2>
+<span id="virt-containers"></span><h2><span class="section-number">46.7. </span>Linux Containers and Docker<a class="headerlink" href="#linux-containers-and-docker" title="Permalink to this headline">#</a></h2>
 <p>Running different applications within separate virtual machines provides
 a number of benefits when compared to running them all on the same
 unvirtualized operating system:</p>

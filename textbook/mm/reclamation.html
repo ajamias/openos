@@ -519,12 +519,12 @@ document.write(`
 <h2><span class="section-number">26.1. </span>The Memory Hierarchy<a class="headerlink" href="#the-memory-hierarchy" title="Permalink to this headline">#</a></h2>
 <p>Demand paging from files and from swap provides the mechanisms to create
 the traditional memory hierarchy, as shown in
-(#fig:vm:pic108).</p>
+<a class="reference internal" href="#fig-vm-pic108"><span class="std std-numref">Fig. 26.1</span></a>.</p>
 <hr class="docutils" />
-<figure class="align-default" id="fig-vm-fig108">
+<figure class="align-default" id="fig-vm-pic108">
 <a class="reference internal image-reference" href="../_images/virt-mem-pic108.png"><img alt="../_images/virt-mem-pic108.png" src="../_images/virt-mem-pic108.png" style="width: 45%;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 26.1 </span><span class="caption-text">4-level Memory Hierarchy</span><a class="headerlink" href="#fig-vm-fig108" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 26.1 </span><span class="caption-text">4-level Memory Hierarchy</span><a class="headerlink" href="#fig-vm-pic108" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>To access address A:</p>
@@ -553,9 +553,8 @@ run slowly for a while as it swaps these pages back in.</p>
 <h2><span class="section-number">26.2. </span>Dirty and Clean Pages<a class="headerlink" href="#dirty-and-clean-pages" title="Permalink to this headline">#</a></h2>
 <p>How does the operating system determine whether a page has been modified
 and needs to be written to disk? It uses the D bit in the page table
-entry for this, as seen in
-<span class="xref myst">[fig:vm:pic106]</span>{reference-type=”autoref”
-reference=”fig:vm:pic106”}. When a page is mapped in the page table, the
+entry for this, as seen in <a class="reference internal" href="virt-paging.html#fig-vm-pic106"><span class="std std-numref">Fig. 24.4</span></a>.
+When a page is mapped in the page table, the
 D bit in the PTE is set to zero; when the CPU writes to a page with D =
 0, the MMU re-writes the page table entry with D = 1. When the OS
 decides to evict a page, the D bit tells it whether the page is “clean,”
@@ -589,15 +588,12 @@ used. (in that case, paging it back in would force another page to be
 evicted, and the work of paging it out and back in again would be
 wasted.) In fact, replacement of items in a cache is a general problem
 in computer systems; examples include:</p>
-<div class="highlight-itemize* notranslate"><div class="highlight"><pre><span></span>Cache line replacement in the hardware CPU cache
-
-Entry replacement in the TLB
-
-Buffer replacement in a file system buffer pool
-
-Page replacement in virtual memory
-</pre></div>
-</div>
+<ul class="simple">
+<li><p>Cache line replacement in the hardware CPU cache</p></li>
+<li><p>Entry replacement in the TLB</p></li>
+<li><p>Buffer replacement in a file system buffer pool</p></li>
+<li><p>Page replacement in virtual memory</p></li>
+</ul>
 <p>The page replacement problem can be stated in abstract form:</p>
 <p>Given the following:</p>
 <ul class="simple">
@@ -638,24 +634,31 @@ worse?</p></li>
 </ul>
 <section id="fifo">
 <h3><span class="section-number">26.4.1. </span>FIFO<a class="headerlink" href="#fifo" title="Permalink to this headline">#</a></h3>
-<p><img alt="FIFO cleaning" src="../_images/virt-mem-pic107.png" />{#fig:vm:pic107 width=”100%”}</p>
+<figure class="align-default" id="fig-vm-pic107">
+<a class="reference internal image-reference" href="../_images/virt-mem-pic107.png"><img alt="../_images/virt-mem-pic107.png" src="../_images/virt-mem-pic107.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 26.2 </span><span class="caption-text">Example of first-in-first-out (FIFO) page replacement</span><a class="headerlink" href="#fig-vm-pic107" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>This strategy is very simple to implement, as it only requires keeping
 track of the order in which pages were fetched into memory. Given 4
 pages in physical memory, and the following access pattern:</p>
 <p>1 2 3 4 2 1 3 4 5 4 1 2 5 6 3 2 5 2 3 6</p>
 <p>The contents of memory after each access is shown in
-<span class="xref myst">[fig:vm:pic107]</span>{reference-type=”autoref”
-reference=”fig:vm:pic107”}, with hits shown in light grey and pages
+<a class="reference internal" href="#fig-vm-pic107"><span class="std std-numref">Fig. 26.2</span></a>, with hits shown in light grey and pages
 evicted (when misses occur) shown in dark grey.</p>
-<p><img alt="LRU cleaning" src="../_images/virt-mem-pic109.png" />{#fig:vm:pic109 width=”100%”}</p>
 </section>
 <section id="lru">
 <h3><span class="section-number">26.4.2. </span>LRU<a class="headerlink" href="#lru" title="Permalink to this headline">#</a></h3>
+<figure class="align-default" id="fig-vm-pic109">
+<a class="reference internal image-reference" href="../_images/virt-mem-pic109.png"><img alt="../_images/virt-mem-pic109.png" src="../_images/virt-mem-pic109.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 26.3 </span><span class="caption-text">Example of least-recently-used (LRU) page replacement</span><a class="headerlink" href="#fig-vm-pic109" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>The idea behind LRU is that pages which have been accessed in the recent
 past are likely to be accessed in the near future, and pages which
-haven’t, aren’t. LRU replacement is shown in
-<span class="xref myst">[fig:vm:pic109]</span>{reference-type=”autoref”
-reference=”fig:vm:pic109”}.</p>
+haven’t, aren’t. LRU replacement is shown in <a class="reference internal" href="#fig-vm-pic109"><span class="std std-numref">Fig. 26.3</span></a>.</p>
 <p>To make the operation of the LRU algorithm more clear, on each hit, the
 accessed page is moved to the top of the column. (This is how LRU is
 typically implemented in software: elements are kept in a list, and on
@@ -663,29 +666,33 @@ access, an element is removed and reinserted at the front of the list.
 The least-recently-used element may then be found by taking the tail of
 the list) Although this is a small example, a performance improvement is
 noted, with four misses compared to six for FIFO.</p>
-<p><img alt="optimal cleaning" src="../_images/virt-mem-pic110.png" />{#fig:vm:pic110
-width=”100%”}</p>
 </section>
 <section id="opt">
 <h3><span class="section-number">26.4.3. </span>OPT<a class="headerlink" href="#opt" title="Permalink to this headline">#</a></h3>
+<figure class="align-default" id="fig-vm-pic110">
+<a class="reference internal image-reference" href="../_images/virt-mem-pic110.png"><img alt="../_images/virt-mem-pic110.png" src="../_images/virt-mem-pic110.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 26.4 </span><span class="caption-text">Example of the optimal algorithm for page replacement</span><a class="headerlink" href="#fig-vm-pic110" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>The optimal algorithm picks a page to evict by looking forward in time
 and finding the page which goes for the longest time without being
 accessed again. Except for seeing the future, OPT plays by the same
 rules as other demand-paging algorithms: in particular, it can’t fetch a
 page until it is accessed. (That’s why the OPT strategy still has
-misses.) OPT is shown in
-<span class="xref myst">[fig:vm:pic110]</span>{reference-type=”autoref”
-reference=”fig:vm:pic110”}, using the same access pattern as before. The
+misses.) OPT is shown in <a class="reference internal" href="#fig-vm-pic110"><span class="std std-numref">Fig. 26.4</span></a>, using the same access pattern as before. The
 first eviction decision is shown graphically: pages 4, 2, and 1 are
 accessed 1, 3, and 2 steps in the future, respectively, while page 3
 isn’t accessed for 6 steps and is thus chosen to be evicted.</p>
-<p><br />
-<img alt="image" src="../_images/virt-mem-pic111.png" />{width=”\textwidth”}</p>
-<p><img alt="CLOCK Algorithm" src="../_images/virt-mem-pic112.png" />{#fig:vm:pic112
-width=”\textwidth”}</p>
 </section>
 <section id="fifo-with-second-chance-clock">
 <h3><span class="section-number">26.4.4. </span>FIFO with Second Chance (CLOCK)<a class="headerlink" href="#fifo-with-second-chance-clock" title="Permalink to this headline">#</a></h3>
+<figure class="align-default" id="fig-vm-pic111">
+<a class="reference internal image-reference" href="../_images/virt-mem-pic111.png"><img alt="../_images/virt-mem-pic111.png" src="../_images/virt-mem-pic111.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 26.5 </span><span class="caption-text">Example of FIFO with second chance</span><a class="headerlink" href="#fig-vm-pic111" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>LRU is simple and quite effective in many caching applications, and it’s
 ideal that the operating system uses it to determine which pages to
 evict from memory. But there is one small problem in using it in a
@@ -699,8 +706,7 @@ strategy.</p>
 <p>Despite this issue, it’s still possible to do better than FIFO by using
 the A (“accessed”) bit in the page table entry, which indicates whether
 the page has been accessed since the last time the bit was cleared[^18].
-In <span class="xref myst">[fig:vm:pic111]</span>{reference-type=”autoref”
-reference=”fig:vm:pic111”} we see an algorithm called “FIFO with second
+In <a class="reference internal" href="#fig-vm-pic111"><span class="std std-numref">Fig. 26.5</span></a> we see an algorithm called “FIFO with second
 chance,” where the A bit is used to determine whether a page has been
 accessed while it was in the FIFO queue. If the A bit is 1, the
 replacement algorithm clears it and re-writes the page table entry, and
@@ -711,9 +717,14 @@ replacement.</p>
 </section>
 <section id="clock">
 <h3><span class="section-number">26.4.5. </span>CLOCK<a class="headerlink" href="#clock" title="Permalink to this headline">#</a></h3>
+<figure class="align-default" id="fig-vm-pic112">
+<a class="reference internal image-reference" href="../_images/virt-mem-pic112.png"><img alt="../_images/virt-mem-pic112.png" src="../_images/virt-mem-pic112.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 26.6 </span><span class="caption-text">Example of the CLOCK algorithm for page replacement</span><a class="headerlink" href="#fig-vm-pic112" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>An alternate way of visualizing the FIFO with second chance algorithm is
-shown in <span class="xref myst">[fig:vm:pic112]</span>{reference-type=”autoref”
-reference=”fig:vm:pic112”}. Pages are arranged in a circle, with a
+shown in <a class="reference internal" href="#fig-vm-pic112"><span class="std std-numref">Fig. 26.6</span></a>. Pages are arranged in a circle, with a
 “hand” advancing around the circle testing pages and determining whether
 to keep or evict them. This description is the origin of the widely-used
 name for this algorithm, CLOCK.</p>
